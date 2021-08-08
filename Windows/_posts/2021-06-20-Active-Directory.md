@@ -28,7 +28,7 @@ Objects stored in the AD database have a big number of attributes, discrete perm
 
 AD provides administrators with a centralised location for managing the authentication and authorisation of the organisational identities. The following sections introduce Active Directory's basic concepts, its structure and its role in an organisation. [1,2]
 
-![Microsoft Active Directory](/assets/img/AD/Active-Directory.jpg)*Microsoft Active Directory*
+![Microsoft Active Directory](/assets/img/Active-Directory.jpg)*Microsoft Active Directory*
 
 ### Active Directory Functionality
 Active Directory is built on top of Windows 2000 and is Microsoft's **Network Operating System (NOS)**. The term network operating system or "NOS" is used to describe a variety of resource types such as user, computer and group accounts. These resources are stored in a central repository, called Active Directory, which contains network operating system information. 
@@ -102,7 +102,7 @@ When an object is created in AD, depending on its type, it can be assigned with 
 
 Using the PowerShell "**Get-ADUser username**" command, where the **username** is a user's real username, one can see the GUID and SID values, associated with the user account. 
 
-![Get-ADUser](/assets/img/AD/Get-ADUSer.png)*Object Identifiers*
+![Get-ADUser](/assets/img/Get-ADUSer.png)*Object Identifiers*
 
 The **GUID** is stored inside the attribute **ObjectGUID**. The **SID** is the attribute where the value of the SID is stored inside the object. Every object inside Active Directory will be assigned with the ObjectGUID, a 128-bit value, which is recognisable in the global scope as it is not restricted to a particular domain and stays there until the Administrator deletes the object. While administrators modify or move objects across the AD, the value of the GUID stays unaffected and is published to the GC server. Although there is a confusion that the GUID is a unique value, according to the documentation, the method used to create a GUID is complicated, so it is unlikely that there is a duplicate GUID. Unlike the GUID, the SID value of an object is unique to its domain. Its value for a given user object will change when that object is moved to another domain. A new SID value is generated, and the old SID value is stored in the **sIDHistory** attribute. [1,2]
 
