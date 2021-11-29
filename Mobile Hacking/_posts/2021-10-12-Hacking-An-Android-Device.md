@@ -2,7 +2,7 @@
 title: Hacking An Android Device
 author: Dimitrios Tsarouchas
 date: 2021-10-12 20:55:00 +0800
-categories: [Cybersecurity, Information Security, Android Hacking, Mobile Hacking]
+categories: [Android Hacking, Mobile Hacking]
 tags: [android, moblie hacking, information security]
 pin: true
 featured-image: assets/img/andriod-hacked.jpg
