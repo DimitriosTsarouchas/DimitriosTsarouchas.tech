@@ -4,7 +4,7 @@ author: Dimitrios Tsarouchas
 date: 2021-02-26 20:55:00 +0800
 categories: [Cybersecurity, Information Security]
 tags: [threat actors, hacktivists, script kiddies, APTs, information security]
-pin: true
+pin: false
 featured-image: /assets/img/threat actorsfront.png
 featured-image-alt: 
 ---
