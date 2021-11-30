@@ -187,6 +187,22 @@ According to the above figure, the "**SQLSERVICE@UNIVERISTY.LOCAL**" is part of 
 According to the above figure, "**Administrators**", "**Enterprise Admins**", and "**Domain Admins**" are high-level targets. "**DTSAROUCHAS@UNIVERSITY.LOCAL**" is an administrator on the "**MSCADMIN.UNIVERSITY.LOCAL**" computer machine, which has a session with "**ADMINISTRATOR@UNIVERSITY.LOCAL**", who is part of the "**ADMINISTRATORS@UNIVERSITY.LOCAL**" group, which is part of the "**DOMAN ADMINS@UNIVERSITY.LOCAL**" group, which is part of the "**ENTERPRISE ADMINS@UNIVERSITY.LOCAL**" group.
 
 
+Later posts will cover attacks that require some credentials to be already known, meaning that a domain must have already been compromised for these attacks to follow. In order for these attacks to be effective, the attacker must have a username and password in his possession.
+
+The attacks that will be covered in later posts are the following:
+*	Pass-the-Hash (PtH)
+*	Pass-the-Password (PtP)
+*	Token Impersonation 
+*	Kerberoasting
+*	GPP/cpassword Attack
+*	Dumping the Local Security Authority
+*	Golden Ticket Attack
+
+Stay tuned!!
+
+<br>
+
+
 **References**
 
 [1]<a name="1"></a>  [PowerSploit Tool.](https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1){:target="_blank"}
