@@ -1,5 +1,5 @@
 ---
-title: Attacking Active Directory - LLMNR and NBT-NS Poisoning 
+title: Active Directory - LLMNR and NBT-NS Poisoning 
 author: Dimitrios Tsarouchas
 date: 2021-08-07 09:55:00 +0800
 categories: [Windows, Active Directory]
