@@ -87,35 +87,125 @@ Click `Install` and once the installation is done the PC will automatically rebo
 Once the machine is rebooted you will notice it will have a user of **TESTING\Administrator** (or whatever name you have chosen for your domain name), which means that we're logging in to the domain **TESTING** as the **Administrator**, type your password, and you will be logged in as the administrator of your domain.
 
 ## Configure the Domain Controller
+
+Okay, now let's configure our domain controller. We're gonna configure some domain policies, create some users and take a general look at Active Directory.
+
 ![LoginToTheDomainAsAdmin](/assets/img/ADSetup/ConfigureDC/1.LoginToTheDomainAsAdmin.png)
+
+From the top menu select `Tools -> Active Directory Users and Computers`.
+
 ![AD_UsersAndComputers](/assets/img/ADSetup/ConfigureDC/2.AD_UsersAndComputers.png)
+
+Expanding the **TESTING.local** we can see that there are some **Organisational Units** in it (Builtin, Computers, Domain Controllers, ForeignSecurityPrincipals, Managed Service Accounts and Users). 
+
+Create a new OU (`right-click -> New ->Organizational Unit`) and name it "**Group**". We will move all the users that belong to the **Users OU** and have the type of "**Security Group**" into the newly created **Group OU** as shown below.
+
 ![NewOU](/assets/img/ADSetup/ConfigureDC/3.NewOU.png)
 ![MoveSecurityGroups](/assets/img/ADSetup/ConfigureDC/4.MOveSecurityGroups.png)
+
+Now we've got a nice and clean Users OU area. Whenever you see a down error next to a user (see Guest user), that means that the account has been disabled.
+
 ![UsersOU](/assets/img/ADSetup/ConfigureDC/5.UsersOU.png)
+
+In the next figure, we can see that the **Administrator** user is a **Member of Domain Admins**, which means that they are administrators and if you are a **Domain User** that means that you're able to log in to the domains. So we will create a couple of domain users and domain admin as well.
+
 ![AdminProps](/assets/img/ADSetup/ConfigureDC/6.AdminProps.png)
+
+In the **Active Directory Users and Computers Users OU** right-click `New -> User` and create our first user, John Doe. We need to pick our name convention which in our case will be the first initial followed by last name like this: "**jdoe**".
+
 ![CreatingAUser](/assets/img/ADSetup/ConfigureDC/7.CreatingAUser.png)
+
+Then we enter John's password.
+
 ![Userspassword](/assets/img/ADSetup/ConfigureDC/8.Userspassword.png)
+
+Next, we will create a user, Mary Doe, who will be an administrator, and we'll do that by right-clicking on the Administrator user account and selecting "**Copy**". Mary will inherit all the Administrator's properties.
+
 ![CopyADomainAdmin](/assets/img/ADSetup/ConfigureDC/9.CopyADomainAdmin.png)
+
+We have created one more regular domain user, Jack Daniels, by copying John Doe's user object. As we can see below, Jack Daniels is a member of Domain Users because we copied that property from John Doe. If we look at Mary Doe, we can see that she is a member of all of the same groups as the Administrator is because we copied that from the Administrator. Additionally, we have created an additional account called SQLService.
+
 ![DifferenceBetrweenDA_And_DU](/assets/img/ADSetup/ConfigureDC/10.DifferenceBetrweenDA_And_DU.png)
+
+Now, we will create a shared folder by going to `Files and Storage Services -> Shares`, clicking on the "**TASKS**" dropdown and selecting "**New Share**".
+
 ![New_Shares](/assets/img/ADSetup/ConfigureDC/11.New_Shares.png)
+
+Select "**SMB Share - Quick**" and click `Next`.
+
 ![SMB_Share_Quick](/assets/img/ADSetup/ConfigureDC/12.SMB_Share_Quick.png)
+
+Click `Next`.
+
 ![OathforShare](/assets/img/ADSetup/ConfigureDC/13.OathforShare.png)
-![NameSharedFolder](/assets/img/ADSetup/14NameSharedFolder.png)
+
+As a "**Share name**" I will give "**SharedFolder**", feel free to name your shared folder whatever name you want, and click `Next`.
+
+![NameSharedFolder](/assets/img/ADSetup/ConfigureDC/14NameSharedFolder.png)
+
+Click `Create` and then `Close`.
+
 ![CreateShare](/assets/img/ADSetup/ConfigureDC/15.CreateShare.png)
+
+So, now we have created a shared folder with the local path "**C:\Shares\SharedFolder**".
+
 ![ShareFolderCreated](/assets/img/ADSetup/ConfigureDC/16.ShareFolderCreated.png)
+
+#### Optional
+
+Optionally, we will set a Service Principal Name for our SQLService account. 
+
+Run a cmd as administrator and type the following commands depicted below.
+
 ![SetSPN](/assets/img/ADSetup/ConfigureDC/17.SetSPN.png)
+
+In order to check that this SPN has been set we type `setspn -T TESTING.local -Q */*` and down at the bottom we can see that the SQLService has been set.
+
 ![CheckingSPNSetUp](/assets/img/ADSetup/ConfigureDC/18.CheckingSPNSetUp.png)
 
 ## Configure a Domain User Machine
+
+On our user's machine, we create a shared folder that will be shared with public networks. Next, we need to join John's pc to the TESTING domain. 
+
 ![Enablesharing](/assets/img/ADSetup/ConfigureUser/1.Enablesharing.png)
+
+First, we need to go on our domain controller and grab its IP address by firing up a cmd and typing `ipconfig`. We can see in my DC the IP address is `192.168.144.130`, we copy it and then we move tou John's machine where we will use this IP address as John's DNS.
+
 ![ADDCIpaddress](/assets/img/ADSetup/ConfigureUser/2.ADDCIpaddress.png)
+
+Go to `Network and Internet Settings -> Change adapter options -> right-click on Ethernet0 -> Properties -> Internet Protocol Version 4 (TCP/IPv4) Properties`, select "**Use the following DNS server address**" and in "**Preferred DNS server**" paste the DC's IP address (in my occasion is 192.168.144.130).
+
 ![SettingDNStheDC](/assets/img/ADSetup/ConfigureUser/3.SettingDNStheDC.png)
+
+Next, click on the start button, type "domain", select "**Access work or school**", click "**+ Connect**" and on the "**Set up a work or school account**" window click the "**Join this device to a local Active Directory domain**". 
+
 ![AccessWorkOrSchool](/assets/img/ADSetup/ConfigureUser/4.AccessWorkOrSchool.png)
+
+Since we're joining the TESTING domain, under "**Domain name**" we will type "**TESTING.local**", "**Skip**" the next step and restart the PC. 
+
 ![JoiningtheDomain](/assets/img/ADSetup/ConfigureUser/5.JoiningtheDomain.png)
+
+We join as **Administrator** with our Admin password we have set in the begining.
+
 ![JoiningasAdmin](/assets/img/ADSetup/ConfigureUser/6.JoiningasAdmin.png)
 ![7Skip](/assets/img/ADSetup/ConfigureUser/7Skip.png)
+
+Once the PC reboots we will join to the doamin as John using his logon name "**jdoe**", it might take a little time to get everything ready.
+
 ![signingtothedomainasJohn](/assets/img/ADSetup/ConfigureUser/8.signingtothedomainasJohn.png)
+
+Once everything is ready, we can see that we have successfully logged in the domain as John Doe. 
+
 ![loggedinasJdoe](/assets/img/ADSetup/ConfigureUser/9.loggedinasJdoe.png)
+
+We will now sign in as Administrator using "**testing\administrator**" and the administrator's password, and we will enable John Doe to be a local administrator on this PC.
+
 ![loginasadmin](/assets/img/ADSetup/ConfigureUser/10.loginasadmin.png)
+
+Right-click on the start button nad select `Computer Management -> Local Users and Groups -> Groups -> Administrators -> Add...`, enter the object name "**jdoe**" and click "**Check Names**", "**OK**" and "**Apply**".
+
 ![addingJdoeinthedomain](/assets/img/ADSetup/ConfigureUser/11.addingJdoeinthedomain.png)
+
+Now we can see that John's PC has been added to the "**Computers**" OU in Active Directory Users and Computers, and we have successfully joined John Doe to the TESTING.local domain. 
+
 ![JohnPCjoinedinthisdomain](/assets/img/ADSetup/ConfigureUser/12.JohnPCjoinedinthisdomain.png)
