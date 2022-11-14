@@ -2,6 +2,8 @@ source "https://rubygems.org"
 
 gem "jekyll", ">= 4.1.0", "< 5.0"
 
+#bundle exec jekyll serve --livereload
+#
 # plugins
 group :jekyll_plugins do
   gem "jekyll-paginate"
